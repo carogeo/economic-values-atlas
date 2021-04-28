@@ -1,55 +1,35 @@
 
-# Welcome to the Economic Values Atlas
+# Where to put green infrastructure
 
-Brookings Institution pioneered an Economic Values Atlas in 2019 for the
-Portland Metro region
-(<a href="https://www.brookings.edu/research/announcing-the-economic-value-atlas-a-new-approach-to-regional-transportation-and-land-use-planning/" target="_blank">Tomer
-et al.</a>). This is an implementation of the concept for our region.
-Please scroll down to start using this tool. We suggest you use a
-desktop web browser for the best experience.
+Humphrey students presented on the fact that there are lots of variables
+to consider when selecting geographic areas where green roofs (or other
+green infrastructure). The students looked at a suite of variables, and
+established clear cut-off zones for determining which tracts where
+greenroofs could have a disproportionate benefit. For instance, tracts
+where the average summer temperature on a hot day was &gt;= 95 degrees,
+and tracts must be an “area of concentrated poverty.”
+
+<br> Leveraging the continuous nature of these variable rather than
+binning them into “suitable for green roofs” versus “not suitable” could
+be a way to give a bit more nuance into the conversation. Here, explore
+the full range of summer temperatures, or percent of people within a
+tract whose income is in the bottom 20% of the region. By synthesize
+these disparate variables into a single, understandable value, we can
+identify the tracts where greenroofs could have the largest
+disproportionate benefit. And also compare the differences in “how much
+better” is one tract versus another.
+
+<br> Here we’ve centered and re-scaled all the variables, so they all
+have the same units. Please scroll down to start using this tool. We
+suggest you use a desktop web browser for the best experience.
+
+<br> This is totally a quick and dirty test to see if this works. All
+variables used here are pulled from the Equity Considerations Dataset
+and informed by the student presentation on Tuesday. If this seems like
+a useful approach (synthesizing the different variables by using
+standardized and scaled values), let’s think more critically about what
+the data inputs should be!
 
 <br>
 
-## What this tool does
-
-This interactive tool explores the economic values of our region. The
-economic values are specific to our region and are shaped by our 30-year
-regional plan. We seek to promote sustainable infrastructure
-development, a resilient economy, and shared prosperity throughout our
-region.
-
-<br> We have synthesized existing and complex data sources to produce
-accessible conclusions. This tool allows users to find “opportunity
-zones” where economic investments jointly: a) have the potential for
-disproportionately positive impacts for the future prosperity of our
-entire region, and b) are poised for success with favorable
-infrastructure and accessibility to underutilized workforces.
-
-<center>
-<img src='www/eva_schematic.png' max-width='200px' alt='EVA schematic'/img>
-</center>
-
-## Why we built the tool
-
-This project is motivated by the fact that our region shares a common
-goal for economic development (as outlined in Thrive 2040 and
-predecessors), and yet divergent outcomes for economic prosperity exist
-across our region. Developing and leveraging this Economic Values Atlas
-with a shared language for economic development is one proposed
-intervention. EVA can bring an objective lens to project evaluation and
-decision-making processes that guide regional economic investments,
-re-investments, and development.
-
-<br> The need for an Economic Values Atlas was underscored by events
-transpiring during the year 2020. The onset of the COVID-19 pandemic
-disrupted and destabilized local and global economies. The prevalence of
-police brutality, racism, and systemic inequities impacting communities
-of color was more widely recognized. These events punctuate the need for
-more granular and holistic measures of economic prosperity and
-opportunity. Building a jointly prosperous, resilient, and equitable
-economic future for our region necessitates new thinking.
-
-<center>
-<img src='www/trajectory.png' width='700px' alt='Trajectory for economic recovery'/img>
-</center>
 <hr>

@@ -30,24 +30,16 @@ fs::file_delete("EquityConsiderations_Full.xlsx")
 ## --------------variables of interest from equity considerations
 eva_data_raw <- equity %>%
   select(tr10, 
-         p_englimit,
-         pwhitenh,
-         ppov185,
-         work_denom,
-         pwk_nowork,
-         mdern_ftyr,
-         phftransit,
-         job_total,
-         pjob_le15k,
-         mdlandv20,
-         luse_comm,
-         luse_indus,
-         luse_undev) %>%
+         p_0017,
+         p_65up,
+         avg_temp,
+         phhi_qntl1,
+         green_roof,
+         env_cancer,
+         luse_green) %>%
   rowwise() %>%
-  mutate(luse_commind = sum(luse_comm, luse_indus, na.rm=T),
-         pnonwhite = 1 - pwhitenh) %>%
-  select(-luse_comm, -luse_indus,
-         -pwhitenh) %>%
+  mutate(luse_notgreen = 1 - luse_green) %>%
+  select(-luse_notgreen) %>%
   rename(tract_string = tr10)
 
 ###################
@@ -56,18 +48,14 @@ eva_data_raw <- equity %>%
 
 ## -------------------------------describe data
 eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
-                          "p_englimit", "Share of population with limited English proficiency", "people", "high_opportunity",
-                          "pnonwhite", "Share of population that is BIPOC", "people", "high_opportunity",
-                          "ppov185", "Share of population below 185% of poverty line", "people",  "high_opportunity",
-                          "work_denom", "Working age population (total persons age 16-64)", "people", "high_opportunity",
-                          "pwk_nowork", "Share of unemployed working age population", "people", "high_opportunity",
-                          "mdern_ftyr", "Median annual earnings for full-time workers (in 2019 dollars)", "people", "low_opportunity",
-                          "phftransit", "Proportion of residents nearby (<0.5 mile) high frequency transit", "place", "high_opportunity",
-                          "job_total", "Total jobs", "business", "low_opportunity",
-                          "pjob_le15k", "Proportion of jobs that are low income (<15,000 / year)", "business", "high_opportunity",
-                          "mdlandv20", "Median land value per acre (in 2020)", "place", "low_opportunity",
-                          "luse_commind", "Proportion of acres used for commercial or industrial uses", "place", "high_opportunity",
-                          "luse_undev", "Proportion of acres that are undeveloped", "place", "high_opportunity")
+                          "p_0017", "% people age 17 or younger", "people",  "high_opportunity",
+                          "p_65up", "% people age 65 or older", "people",  "high_opportunity",
+                          "avg_temp", "Land surface temp on hot summer day", "environment",  "high_opportunity",
+                          "phhi_qntl1", "% households with annual income less than $35,000", "people",  "high_opportunity",
+                          "green_roof", "Water holding potential of green roofs on commercial bldgs", "environment",  "high_opportunity",
+                          "env_cancer", "Lifetime cancer risk from air toxics", "people", "high_opportunity",
+                          "luse_notgreen", "% of tract NOT used for green space", "environment", "high_opportunity"
+                          )
 
 
 # ###################
