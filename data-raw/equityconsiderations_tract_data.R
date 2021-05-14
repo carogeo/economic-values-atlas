@@ -1,14 +1,21 @@
-#` this is a description
-#`
-## code to prepare `census_tract` dataset goes here
+## code to prepare `eva_data_main` dataset goes here
 
 date <- format(Sys.time(), "%Y%m%d")
 # pkgload::load_all()
 
+########
+# # load packages -----
+########
+# # this works when workign inside the package
 requireNamespace("readxl", quietly = TRUE)
 requireNamespace("fs", quietly = TRUE)
-requireNamespace("tigris", quietly = TRUE)
 requireNamespace("janitor", quietly = TRUE)
+
+# # # and this works when not inside a package
+# library("readxl") #if you get an error message, run `install.packages('readxl')` or the equivalent
+# library("janitor")
+# library("tidyverse")
+
 
 ###################
 # download data sources of interest and select relevant variables
@@ -38,9 +45,9 @@ eva_data_raw <- equity %>%
          env_cancer,
          luse_green) %>%
   rowwise() %>%
-  mutate(luse_notgreen = 1 - luse_green) %>%
-  select(-luse_notgreen) %>%
-  rename(tract_string = tr10)
+  mutate(luse_notgreen = 1 - luse_green) %>% #"mutate" reformats any variables that need it
+  select(-luse_notgreen) %>% #and then I want to remove the variable I don't need anymore
+  rename(tract_string = tr10) #and for this project, I need to rename the tract variable
 
 ###################
 # add some human-readable metadata
@@ -57,34 +64,14 @@ eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
                           "luse_notgreen", "% of tract NOT used for green space", "environment", "high_opportunity"
                           )
 
-
-# ###################
-# # gather spatial elements
-# ###################
-# ## ---------------get tracts via tigris
-# MNtract <- tigris::tracts(
-#   state = "MN",
-#   county = c(
-#     "Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington"#,
-#     # "Sherburne", "Isanti", "Chisago", "Goodhue", "Rice", "Le Sueur", "Sibley", "McLeod", "Wright" #if want to add collar counties
-#   ),
-#   class = "sf"
-# ) %>%
-#   select(GEOID)
-# 
-# eva_tract_geometry <- MNtract %>% 
-#   st_transform(4326)
-# 
-# usethis::use_data(eva_tract_geometry, overwrite = TRUE)
-
 ###################
-# create final dataset - no spatial data
-#note spatial data should be joined after any summarizing is done to save some computation time
+# #create final dataset - no spatial data here
+# #note: spatial data should be joined after any summarizing is done to save some computation time
 ###################
 
 # #long data
 eva_data_main <- eva_data_raw %>%
-  gather("variable", "raw_value", -tract_string) %>%
+  pivot_longer(names_to = "variable", values_to = "raw_value", -tract_string) %>% #end the code after this line if you just want the reshaped data
   group_by(variable) %>%
   mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
@@ -122,6 +109,12 @@ eva_data_main <- eva_data_raw %>%
   #clean
   select(-MEAN, -SD, -MIN, -MAX) 
   
+########
+# save data
+########
 
+#this works if you're in a package
 usethis::use_data(eva_data_main, overwrite = TRUE)
 
+#otherwise use this
+# write_csv(eva_data_main, "./eva_data_main.csv")

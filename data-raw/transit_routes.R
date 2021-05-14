@@ -26,6 +26,23 @@ library(janitor)
 # 
 
 
+### ------
+pot <- readxl::read_xlsx("/Volumes/shared/CommDev/Research/Research/Tableau/Surface with Purpose/SolarPotential_PolygonTable for Cam.xlsx")
+
+head(pot) %>% data.frame()
+
+
+pot2 <- readxl::read_xlsx("/Volumes/shared/CommDev/Research/Research/Tableau/Surface with Purpose/SolarPotential_PolygonTable.xlsx")
+
+head(pot2) %>% data.frame()
+
+
+parcels <- st_read("/Volumes/shared/CommDev/Research/Research/Tableau/Surface with Purpose/Surface with Purpose CTUs.shp") #so this is actually just a shape file fo each ctu, not the parcels within the ctu
+
+parcels %>% filter(CTU_NAME == "Afton") %>%
+  ggplot() + geom_sf(fill = "transparent")
+
+pot %>% filter(PARCID == "ANOK_100067")
 ## transit stops ---------------
 temp <- tempfile()
 temp2 <- tempfile()
