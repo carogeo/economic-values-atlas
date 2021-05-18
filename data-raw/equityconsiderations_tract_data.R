@@ -37,6 +37,9 @@ fs::file_delete("EquityConsiderations_Full.xlsx")
 ## --------------variables of interest from equity considerations
 eva_data_raw <- equity %>%
   select(tr10, 
+         ppov185,
+         prim_flood,
+         pwhitenh,
          p_0017,
          p_65up,
          avg_temp,
@@ -45,8 +48,10 @@ eva_data_raw <- equity %>%
          env_cancer,
          luse_green) %>%
   rowwise() %>%
-  mutate(luse_notgreen = 1 - luse_green) %>% #"mutate" reformats any variables that need it
-  select(-luse_notgreen) %>% #and then I want to remove the variable I don't need anymore
+  mutate(luse_notgreen = 1 - luse_green,
+         pbipoc = 1 - pwhitenh) %>% #"mutate" reformats any variables that need it
+  select(-luse_notgreen,
+         -pwhitenh) %>% #and then I want to remove the variable I don't need anymore
   rename(tract_string = tr10) #and for this project, I need to rename the tract variable
 
 ###################
@@ -55,6 +60,9 @@ eva_data_raw <- equity %>%
 
 ## -------------------------------describe data
 eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
+                          "ppov185",	"% people whose family income is <185% of the federal poverty threshold", "people", "high_opportunity",
+                          "prim_flood", "% developed acres in primary flood zone", "environment", "high_opportunity",
+                          "pbipoc", "% people of color", "people", "high_opportunity",
                           "p_0017", "% people age 17 or younger", "people",  "high_opportunity",
                           "p_65up", "% people age 65 or older", "people",  "high_opportunity",
                           "avg_temp", "Land surface temp on hot summer day", "environment",  "high_opportunity",
@@ -118,3 +126,20 @@ usethis::use_data(eva_data_main, overwrite = TRUE)
 
 #otherwise use this
 # write_csv(eva_data_main, "./eva_data_main.csv")
+
+########
+# create some static data for SwP tabealu style
+#########
+equity_swp_data <- eva_data_main %>%
+  filter(variable %in% c("ppov185", "pbipoc", "prim_flood", "avg_temp")) %>%
+  group_by(tract_string) %>%
+  summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
+  # left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
+  # st_as_sf() %>%
+  # st_transform(4326) %>%
+  mutate(RANK = min_rank(desc(MEAN))) %>%
+  rename(PPL_ENV_VALUE = MEAN,
+         PPL_ENV_RANK = RANK,
+         GEOID10 = tract_string)
+
+write_csv(eva_data_main, "./data/equity_swp_data.csv")
