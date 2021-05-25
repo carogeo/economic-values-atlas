@@ -32,7 +32,8 @@ app_ui <- function(request) {
                         mod_intro_ui("intro_ui_1"),
                         
                         h1('Visualize regional "opportunity zones"'),br(),
-                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where greenroofs could have disporportionately positive impacts (values closer to 10). Cool and dark colors (black, purple) correspond to lower opportunity areas (values closer to zero). Click on any tract to get more information.</p>"),
+                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where new tree plantings could have disporportionately positive impacts (values closer to 10). Cool and dark colors (black, purple) correspond to lower opportunity areas (values closer to zero). Click on any tract to get more information.</p>
+                             <br><p>There is the capability to plot everything at the Census block group level (finer resolution than tracts, which are shown here). The data pieces are not yet aggregated in that way, however. And this is just a proof-of-concept idea, so I figured it didn't matter. All the data pieces are weighted equally, but we could weight them differently too."),
                         br(),
                         sidebarPanel(width = 3, 
                                      mod_map_selections_ui("map_selections_ui_1")),

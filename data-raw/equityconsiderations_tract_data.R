@@ -67,9 +67,9 @@ eva_data_codes <- tribble(~variable, ~name, ~type, ~interpret_high_value,
                           "p_65up", "% people age 65 or older", "people",  "high_opportunity",
                           "avg_temp", "Land surface temp on hot summer day", "environment",  "high_opportunity",
                           "phhi_qntl1", "% households with annual income less than $35,000", "people",  "high_opportunity",
-                          "green_roof", "Water holding potential of green roofs on commercial bldgs", "environment",  "high_opportunity",
+                          # "green_roof", "Water holding potential of green roofs on commercial bldgs", "environment",  "high_opportunity",
                           "env_cancer", "Lifetime cancer risk from air toxics", "people", "high_opportunity",
-                          "luse_notgreen", "% of tract NOT used for green space", "environment", "high_opportunity"
+                          # "luse_notgreen", "% of tract NOT used for green space", "environment", "high_opportunity"
                           )
 
 ###################
@@ -88,7 +88,7 @@ eva_data_main <- eva_data_raw %>%
          COUNT = as.numeric(sum(!is.na(raw_value))),
          z_score = (raw_value - MEAN)/SD) %>%
   
-  left_join(eva_data_codes, by = 'variable') %>%
+  right_join(eva_data_codes, by = 'variable') %>%
   
   # #we want high opportunity to be a high value, so this reorders those values if needed
   # mutate(opportunity_zscore = case_when(interpret_high_value == "high_opportunity" ~ z_score,
@@ -127,19 +127,19 @@ usethis::use_data(eva_data_main, overwrite = TRUE)
 #otherwise use this
 # write_csv(eva_data_main, "./eva_data_main.csv")
 
-########
-# create some static data for SwP tabealu style
-#########
-equity_swp_data <- eva_data_main %>%
-  filter(variable %in% c("ppov185", "pbipoc", "prim_flood", "avg_temp")) %>%
-  group_by(tract_string) %>%
-  summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
-  # left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
-  # st_as_sf() %>%
-  # st_transform(4326) %>%
-  mutate(RANK = min_rank(desc(MEAN))) %>%
-  rename(PPL_ENV_VALUE = MEAN,
-         PPL_ENV_RANK = RANK,
-         GEOID10 = tract_string)
-
-write_csv(eva_data_main, "./data/equity_swp_data.csv")
+# ########
+# # create some static data for SwP tabealu style
+# #########
+# equity_swp_data <- eva_data_main %>%
+#   filter(variable %in% c("ppov185", "pbipoc", "prim_flood", "avg_temp")) %>%
+#   group_by(tract_string) %>%
+#   summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
+#   # left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
+#   # st_as_sf() %>%
+#   # st_transform(4326) %>%
+#   mutate(RANK = min_rank(desc(MEAN))) %>%
+#   rename(PPL_ENV_VALUE = MEAN,
+#          PPL_ENV_RANK = RANK,
+#          GEOID10 = tract_string)
+# 
+# write_csv(eva_data_main, "./data/equity_swp_data.csv")

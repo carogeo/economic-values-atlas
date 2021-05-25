@@ -30,8 +30,8 @@ mod_home_ui <- function(id){
       HTML("
                                      
                                      <section class='banner'><br><br>
-                                     <h1 class='parallax'>Which tracts for green insfrastructure?</h1>
-                                     <p class='parallax_description'>Extending 'Surface with Purpose' student presentations.</p>
+                                     <h1 class='parallax'>Where to plant shade?</h1>
+                                     <p class='parallax_description'>Starting a conversation around tree canopy prioritization</p>
                                      </section>
                                      ")
     ),
