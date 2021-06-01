@@ -1,7 +1,5 @@
 README
 ================
-This is a line from RStudio
-
 Ellen Esch
 10 April 2021
 
