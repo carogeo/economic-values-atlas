@@ -11,8 +11,8 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # List the first level UI elements here 
  
-    navbarPage(title = div(img(src = "www/main-logo.png", height = "60px", alt = "MetCouncil logo")),
-      # title = img(src="www/main-logo.png", height = "70px"), 
+    navbarPage(title = div(img(src = "www/B_logo_transparent.png", height = "60px", alt = "Brookings logo")),
+      # title = img(src="www/B_logo_transparent.png", height = "70px"), 
       id = "navBar",
                 # theme = "www/style.css",
                 collapsible = TRUE,
