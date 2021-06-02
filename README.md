@@ -1,7 +1,7 @@
 README
 ================
 Ellen Esch
-10 April 2021
+02 June 2021
 
 -   [Overview](#overview)
 -   [MetCouncil’s contributions](#metcouncils-contributions)
@@ -41,14 +41,25 @@ is a need. Also set the metro name, and the format of the data inputs.
 This should be the only section of code that needs editing.
 
 ``` r
-state_1 <- "OR"
-county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
+state_1 <- "MD"
+county_1 <- c("Anne Arundel", "Baltimore City", "Baltimore County", "Carroll", "Harford", "Howard", "Queen Anne's")
 
-state_2 <- "WA"
-county_2 <- c("Clark", "Skamania")
+state_2 <- NA
+county_2 <- NA
 
-metro <- "pdx"
+metro <- "baltimore"
 dataformat <- "excel"
+
+#####
+
+#state_1 <- "OR"
+#county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
+
+#state_2 <- "WA"
+#county_2 <- c("Clark", "Skamania")
+
+#metro <- "pdx"
+#dataformat <- "excel"
 
 #####
 

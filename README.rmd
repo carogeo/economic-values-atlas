@@ -166,14 +166,14 @@ The following code will launch your region's app (!!). Please run all the code c
 ```{r deployapp, echo=T, include=F}
 pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
 options("golem.app.prod" = TRUE)
-eva.app::run_app(state_1 <- "MD",
-county_1 <- c("Anne Arundel", "Baltimore City", "Baltimore County", "Carroll", "Harford", "Howard", "Queen Anne's"),
-
-state_2 <- NA,
-county_2 <- NA,
-
-metro <- "baltimore",
-dataformat <- "excel") # add parameters here (if any)
+eva.app::run_app()#state_1 <- "MD",
+# county_1 <- c("Anne Arundel", "Baltimore City", "Baltimore County", "Carroll", "Harford", "Howard", "Queen Anne's"),
+# 
+# state_2 <- NA,
+# county_2 <- NA,
+# 
+# metro <- "baltimore",
+# dataformat <- "excel") # add parameters here (if any)
 ```
 
 ## Future plans
