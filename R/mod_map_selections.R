@@ -11,33 +11,53 @@ mod_map_selections_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    shinyWidgets::pickerInput(ns("peopleInput"),
-                              label = shiny::HTML(paste0("<h3>Equity & People</h3>")), 
-                              choices = filter(eva_vars, type == "people")$name, 
+    shinyWidgets::pickerInput(ns("jobsInput"),
+                              label = shiny::HTML(paste0("<h3>Job activity</h3>")), 
+                              choices = filter(eva_vars, type == "jobs")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
                               multiple = T,
-                              selected = filter(eva_vars, type == "people")$name),
+                              selected = filter(eva_vars, type == "jobs")$name),
     hr(),
-    shinyWidgets::pickerInput(ns("placeInput"),
-                              label = shiny::HTML("<h3>Infrastructure & Place</h3>"), 
-                              choices=filter(eva_vars, type == "place")$name, 
+    shinyWidgets::pickerInput(ns("marketInput"),
+                              label = shiny::HTML("<h3>Neighborhood & Market Health</h3>"), 
+                              choices=filter(eva_vars, type == "market")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"), 
                               multiple = T,
-                              selected = filter(eva_vars, type == "place")$name),
+                              selected = filter(eva_vars, type == "market")$name),
     
     hr(),
-    shinyWidgets::pickerInput(ns("businessInput"),
-                              label = shiny::HTML("<h3>Resilience & Business</h3>"), 
-                              choices=filter(eva_vars, type == "business")$name, 
+    shinyWidgets::pickerInput(ns("inclusivityInput"),
+                              label = shiny::HTML("<h3>Inclusivity</h3>"), 
+                              choices=filter(eva_vars, type == "inclusivity")$name, 
                               options = list(`actions-box` = TRUE, 
                                              size = 10,
                                              `selected-text-format` = "count > 1"),
                               multiple = T,
-                              selected = filter(eva_vars, type == "business")$name),
+                              selected = filter(eva_vars, type == "inclusivity")$name),
+    
+    hr(),
+    shinyWidgets::pickerInput(ns("developabilityInput"),
+                              label = shiny::HTML("<h3>Developability</h3>"), 
+                              choices=filter(eva_vars, type == "developability")$name, 
+                              options = list(`actions-box` = TRUE, 
+                                             size = 10,
+                                             `selected-text-format` = "count > 1"),
+                              multiple = T,
+                              selected = filter(eva_vars, type == "developability")$name),
+    
+    hr(),
+    shinyWidgets::pickerInput(ns("realestateInput"),
+                              label = shiny::HTML("<h3>Real Estate & Commercial Vitality</h3>"), 
+                              choices=filter(eva_vars, type == "realestate")$name, 
+                              options = list(`actions-box` = TRUE, 
+                                             size = 10,
+                                             `selected-text-format` = "count > 1"),
+                              multiple = T,
+                              selected = filter(eva_vars, type == "realestate")$name),
     
     hr(),
     actionButton(ns("goButton"), "Update map", class = "btn-success"),
@@ -60,10 +80,12 @@ mod_map_selections_server <- function(input, output, session){
   #uncomment if want to print variables included
   # output$selectedvars0 <- renderText({
   #   input$goButton
-  #   a <- isolate(input$peopleInput)
-  #   b <- isolate(input$placeInput)
-  #   c <- isolate(input$businessInput)
-  #   toprint <- paste(a, b, c, sep = "; ")
+  #   a <- isolate(input$jobsInput)
+  #   b <- isolate(input$marketInput)
+  #   c <- isolate(input$inclusivityInput)
+  #   d <- isolate(input$developabilityInput)
+  #   e <- isolate(input$realestateInput)
+  #   toprint <- paste(a, b, c, d, e, sep = "; ")
   #   toprint
   #   })
   
@@ -74,26 +96,38 @@ mod_map_selections_server <- function(input, output, session){
   observeEvent(input$goButton,{
       input$goButton
     
-    input_values$peopleInput <- input$peopleInput
-    input_values$placeInput <- input$placeInput
-    input_values$businessInput <- input$businessInput
+    input_values$jobsInput <- input$jobsInput
+    input_values$marketInput <- input$marketInput
+    input_values$inclusivityInput <- input$inclusivityInput
+    input_values$developabilityInput <- input$developabilityInput
+    input_values$realestateInput <- input$realestateInput
     
-    input_values$allInputs <- as_tibble(input$peopleInput) %>%
-      rbind(as_tibble(input$placeInput)) %>%
-      rbind(as_tibble(input$businessInput)) 
+    input_values$allInputs <- as_tibble(input$jobsInput) %>%
+      rbind(as_tibble(input$marketInput)) %>%
+      rbind(as_tibble(input$inclusivityInput)) %>%
+      rbind(as_tibble(input$developabilityInput)) %>%
+      rbind(as_tibble(input$realestateInput)) 
   }, ignoreNULL = FALSE)
   
   
-  # observeEvent(input$peopleInput, { # only update when the user changes the eva input
-  #   input_values$peopleInput <- input$peopleInput # create/update the eva input value in our reactiveValues object
+  # observeEvent(input$jobsInput, { # only update when the user changes the eva input
+  #   input_values$jobsInput <- input$jobsInput # create/update the eva input value in our reactiveValues object
   # })
   # 
-  # observeEvent(input$placeInput, { # only update when the user changes the eva input
-  #   input_values$placeInput <- input$placeInput # create/update the eva input value in our reactiveValues object
+  # observeEvent(input$marketInput, { # only update when the user changes the eva input
+  #   input_values$marketInput <- input$marketInput # create/update the eva input value in our reactiveValues object
   # })
   # 
-  # observeEvent(input$businessInput, { # only update when the user changes the eva input
-  #   input_values$businessInput <- input$businessInput # create/update the eva input value in our reactiveValues object
+  # observeEvent(input$inclusivityInput, { # only update when the user changes the eva input
+  #   input_values$inclusivityInput <- input$inclusivityInput # create/update the eva input value in our reactiveValues object
+  # })
+  #
+  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
+  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
+  # })
+  #
+  # observeEvent(input$realestateInput, { # only update when the user changes the eva input
+  #   input_values$realestateInput <- input$realestateInput # create/update the eva input value in our reactiveValues object
   # })
   
   return(input_values)
