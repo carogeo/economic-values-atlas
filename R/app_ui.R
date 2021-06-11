@@ -27,13 +27,13 @@ app_ui <- function(request) {
                
                tabPanel("HOME", 
                         
-                        mod_home_ui("home_ui_1"), br(), br(),
+                        mod_home_ui("home_ui_1"), br(), #br(),
                         
-                        mod_intro_ui("intro_ui_1"),
+#                        mod_intro_ui("intro_ui_1"),
                         
-                        h1('Visualize regional "opportunity zones"'),br(),
-                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of the entire region. Cool and dark colors (black, purple) correspond to lower opportunity areas. Click on any tract to get more information.</p>"),
-                        br(),
+#                        h1('Visualize regional "opportunity zones"'),br(),
+#                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of the entire region. Cool and dark colors (black, purple) correspond to lower opportunity areas. Click on any tract to get more information.</p>"),
+#                        br(),
                         sidebarPanel(width = 3, 
                                      mod_map_selections_ui("map_selections_ui_1")),
                         mainPanel(width = 9,
@@ -42,9 +42,9 @@ app_ui <- function(request) {
                         # h1("Download tract scores"), br(),
                         # mod_download_scores_ui("download_scores_ui_1"),
                         # hr(), br(), br(),
-                        h1("Tract-specific information"), br(),
-                        HTML("<p>Click on a specific tract in the map above in order to view how it compares to the average tract. The plot shows the standardized and scaled scores. The following table shows raw values (units vary across variables).</p>"), br(),
-                        HTML("<p> You can also download the compiled final scores (based on your selected variables, above) for all the tracts by clicking the download button.</p>"),
+#                        h1("Tract-specific information"), br(),
+#                        HTML("<p>Click on a specific tract in the map above in order to view how it compares to the average tract. The plot shows the standardized and scaled scores. The following table shows raw values (units vary across variables).</p>"), br(),
+#                        HTML("<p> You can also download the compiled final scores (based on your selected variables, above) for all the tracts by clicking the download button.</p>"),
                         fluidRow(column(width = 12, align = "center", 
                                         mod_download_scores_ui("download_scores_ui_1"))),
                         br(),

@@ -26,15 +26,15 @@ mod_home_ui <- function(id){
                                                        ')))),
 
     
-    fluidRow(
-      HTML("
-                                     
-                                     <section class='banner'><br><br>
-                                     <h1 class='parallax'>ECONOMIC VALUES ATLAS</h1>
-                                     <p class='parallax_description'>A demonstration of how RShiny could be used in Baltimore.</p>
-                                     </section>
-                                     ")
-    ),
+#    fluidRow(
+#      HTML("
+#                                     
+#                                     <section class='banner'><br><br>
+#                                     <h1 class='parallax'>ECONOMIC VALUES ATLAS</h1>
+#                                     <p class='parallax_description'>A demonstration of how RShiny could be used in Baltimore.</p>
+#                                     </section>
+#                                     ")
+#    ),
     
     # tags$hr(),
     
