@@ -11,7 +11,7 @@ mod_plot_tract_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    plotOutput(ns("bargraph"), height = 900)
+    plotOutput(ns("bargraph"))
     
   )
 }

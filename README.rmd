@@ -43,7 +43,7 @@ state_2 <- NA
 county_2 <- NA
 
 metro <- "baltimore"
-dataformat <- "excel"
+dataformat <- "rscript"
 
 #####
 
@@ -173,13 +173,7 @@ eva.app::run_app()#state_1 <- "MD",
 # county_2 <- NA,
 # 
 # metro <- "baltimore",
-# dataformat <- "excel") # add parameters here (if any)
+# dataformat <- "rscript") # add parameters here (if any)
 ```
 
-## Future plans
 
-What *are* our future plans?!?! 
-
-- How can we update the app (particularly the data inputs) to suit our region?
-- Are there national sources of supplemental data which might be nice to include (transit for instance?). If not, is this a thing that some code would still be helpful?
-- Is z-score the best variable here? What are the other tabs in the Portland data?

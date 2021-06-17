@@ -54,20 +54,39 @@ mod_map_overview_server <- function(input, output, session,
         provider = providers$Esri.WorldImagery,
         group = "Aerial Imagery"
       ) %>%
+      
+      #### regional specific other data layers
+      addMapPane("Corridors", zIndex = 430) %>%
+      addPolygons(
+        # Markers(
+        data = corridor_tracts,
+        group = "Corridors",
+        weight=4,
+        color="white",
+        opacity = 1,
+        fillColor = "transparent",# councilR::colors$transitRed,
+        options = pathOptions(pane = "Corridors")
+      ) %>%
+       groupOptions(
+         group = "Corridors",
+         zoomLevels = 13:20
+       ) %>%
+      
+      hideGroup("Corridors") %>%
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
         baseGroups = c(
-          "Carto Positron",
           "Stamen Toner",
+          "Carto Positron",
           "Aerial Imagery"
         ),
         overlayGroups = c(
-          "Scores"
+          "Scores",
+          "Corridors"
         ),
         options = layersControlOptions(collapsed = T)
-      ) %>%
-      hideGroup(c("Transit")) 
+      )  
   })
   
   
@@ -104,15 +123,15 @@ mod_map_overview_server <- function(input, output, session,
                        data = map_util$map_data2 %>% st_transform(4326),
                        group = "Scores",
                        stroke = TRUE,
-                       color =  councilR::colors$suppGray,
+                       color =  "white",
                        opacity = 0.9,
                        weight = 0.5, #0.25,
                        fillOpacity = 0.7,
                        smoothFactor = 0.2,
                        highlightOptions = highlightOptions(
                          stroke = TRUE,
-                         color = "white",
-                         weight = 6,
+                         color = "#DDD3D4",
+                         weight = 4,
                          bringToFront = TRUE,
                          opacity = 1
                        ),

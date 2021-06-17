@@ -40,16 +40,16 @@ mod_map_selections_ui <- function(id){
                               selected = filter(eva_vars, type == "inclusivity")$name),
     
     hr(),
-    shinyWidgets::pickerInput(ns("developabilityInput"),
-                              label = shiny::HTML("<h3>Developability</h3>"), 
-                              choices=filter(eva_vars, type == "developability")$name, 
-                              options = list(`actions-box` = TRUE, 
-                                             size = 10,
-                                             `selected-text-format` = "count > 1"),
-                              multiple = T,
-                              selected = filter(eva_vars, type == "developability")$name),
-    
-    hr(),
+#    shinyWidgets::pickerInput(ns("developabilityInput"),
+#                              label = shiny::HTML("<h3>Developability</h3>"), 
+#                              choices=filter(eva_vars, type == "developability")$name, 
+#                              options = list(`actions-box` = TRUE, 
+#                                             size = 10,
+#                                             `selected-text-format` = "count > 1"),
+#                              multiple = T,
+#                              selected = filter(eva_vars, type == "developability")$name),
+#    
+#    hr(),
     shinyWidgets::pickerInput(ns("realestateInput"),
                               label = shiny::HTML("<h3>Real Estate & Commercial Vitality</h3>"), 
                               choices=filter(eva_vars, type == "realestate")$name, 
@@ -99,13 +99,13 @@ mod_map_selections_server <- function(input, output, session){
     input_values$jobsInput <- input$jobsInput
     input_values$marketInput <- input$marketInput
     input_values$inclusivityInput <- input$inclusivityInput
-    input_values$developabilityInput <- input$developabilityInput
+#    input_values$developabilityInput <- input$developabilityInput
     input_values$realestateInput <- input$realestateInput
     
     input_values$allInputs <- as_tibble(input$jobsInput) %>%
       rbind(as_tibble(input$marketInput)) %>%
       rbind(as_tibble(input$inclusivityInput)) %>%
-      rbind(as_tibble(input$developabilityInput)) %>%
+#      rbind(as_tibble(input$developabilityInput)) %>%
       rbind(as_tibble(input$realestateInput)) 
   }, ignoreNULL = FALSE)
   
@@ -122,9 +122,9 @@ mod_map_selections_server <- function(input, output, session){
   #   input_values$inclusivityInput <- input$inclusivityInput # create/update the eva input value in our reactiveValues object
   # })
   #
-  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
-  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
-  # })
+#  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
+#  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
+#  # })
   #
   # observeEvent(input$realestateInput, { # only update when the user changes the eva input
   #   input_values$realestateInput <- input$realestateInput # create/update the eva input value in our reactiveValues object
