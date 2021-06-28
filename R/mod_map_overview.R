@@ -106,7 +106,11 @@ mod_map_overview_server <- function(input, output, session,
     list(
       # current_tab,
       map_util$map_data2,
-      map_selections$goButton
+#      map_selections$goButton
+      map_selections$jobsInput,
+      map_selections$marketInput,
+      map_selections$inclusivityInput,
+      map_selections$realestateInput
     )
   })
   

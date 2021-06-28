@@ -59,8 +59,8 @@ mod_map_selections_ui <- function(id){
                               multiple = T,
                               selected = filter(eva_vars, type == "realestate")$name),
     
-    hr(),
-    actionButton(ns("goButton"), "Update map", class = "btn-success"),
+    hr()
+#    actionButton(ns("goButton"), "Update map", class = "btn-success"),
     
     # shiny::h4("Selected variables"),
     # textOutput(ns("selectedvars0")), #if want to print variables on shiny this works
@@ -93,42 +93,63 @@ mod_map_selections_server <- function(input, output, session){
   
   input_values <- reactiveValues() # start with an empty reactiveValues object.
   
-  observeEvent(input$goButton,{
-      input$goButton
-    
-    input_values$jobsInput <- input$jobsInput
-    input_values$marketInput <- input$marketInput
-    input_values$inclusivityInput <- input$inclusivityInput
+#  observeEvent(input$goButton,{
+#      input$goButton
+#    
+#    input_values$jobsInput <- input$jobsInput
+#    input_values$marketInput <- input$marketInput
+#    input_values$inclusivityInput <- input$inclusivityInput
 #    input_values$developabilityInput <- input$developabilityInput
-    input_values$realestateInput <- input$realestateInput
+#    input_values$realestateInput <- input$realestateInput
     
-    input_values$allInputs <- as_tibble(input$jobsInput) %>%
-      rbind(as_tibble(input$marketInput)) %>%
-      rbind(as_tibble(input$inclusivityInput)) %>%
+#    input_values$allInputs <- as_tibble(input$jobsInput) %>%
+#      rbind(as_tibble(input$marketInput)) %>%
+#      rbind(as_tibble(input$inclusivityInput)) %>%
 #      rbind(as_tibble(input$developabilityInput)) %>%
-      rbind(as_tibble(input$realestateInput)) 
-  }, ignoreNULL = FALSE)
+#      rbind(as_tibble(input$realestateInput)) 
+#  }, ignoreNULL = FALSE)
   
   
-  # observeEvent(input$jobsInput, { # only update when the user changes the eva input
-  #   input_values$jobsInput <- input$jobsInput # create/update the eva input value in our reactiveValues object
+   observeEvent(input$jobsInput, { # only update when the user changes the eva input
+     input_values$jobsInput <- input$jobsInput # create/update the eva input value in our reactiveValues object
+     input_values$allInputs <- as_tibble(input$jobsInput) %>%
+       rbind(as_tibble(input$marketInput)) %>%
+       rbind(as_tibble(input$inclusivityInput)) %>%
+       #       rbind(as_tibble(input$developabilityInput)) %>%
+       rbind(as_tibble(input$realestateInput)) 
+   }, ignoreNULL = FALSE)
+   
+   observeEvent(input$marketInput, { # only update when the user changes the eva input
+     input_values$marketInput <- input$marketInput # create/update the eva input value in our reactiveValues object
+     input_values$allInputs <- as_tibble(input$jobsInput) %>%
+       rbind(as_tibble(input$marketInput)) %>%
+       rbind(as_tibble(input$inclusivityInput)) %>%
+       #       rbind(as_tibble(input$developabilityInput)) %>%
+       rbind(as_tibble(input$realestateInput)) 
+   }, ignoreNULL = FALSE)
+   
+   observeEvent(input$inclusivityInput, { # only update when the user changes the eva input
+     input_values$inclusivityInput <- input$inclusivityInput # create/update the eva input value in our reactiveValues object
+     input_values$allInputs <- as_tibble(input$jobsInput) %>%
+       rbind(as_tibble(input$marketInput)) %>%
+       rbind(as_tibble(input$inclusivityInput)) %>%
+       #       rbind(as_tibble(input$developabilityInput)) %>%
+       rbind(as_tibble(input$realestateInput)) 
+   }, ignoreNULL = FALSE)
+  
+  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
+  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
   # })
-  # 
-  # observeEvent(input$marketInput, { # only update when the user changes the eva input
-  #   input_values$marketInput <- input$marketInput # create/update the eva input value in our reactiveValues object
-  # })
-  # 
-  # observeEvent(input$inclusivityInput, { # only update when the user changes the eva input
-  #   input_values$inclusivityInput <- input$inclusivityInput # create/update the eva input value in our reactiveValues object
-  # })
-  #
-#  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
-#  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
-#  # })
-  #
-  # observeEvent(input$realestateInput, { # only update when the user changes the eva input
-  #   input_values$realestateInput <- input$realestateInput # create/update the eva input value in our reactiveValues object
-  # })
+  
+   observeEvent(input$realestateInput, { # only update when the user changes the eva input
+     input_values$realestateInput <- input$realestateInput # create/update the eva input value in our reactiveValues object
+
+     input_values$allInputs <- as_tibble(input$jobsInput) %>%
+       rbind(as_tibble(input$marketInput)) %>%
+       rbind(as_tibble(input$inclusivityInput)) %>%
+       rbind(as_tibble(input$developabilityInput)) %>%
+       rbind(as_tibble(input$realestateInput)) 
+   }, ignoreNULL = FALSE)
   
   return(input_values)
   
