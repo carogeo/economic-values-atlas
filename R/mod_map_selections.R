@@ -59,7 +59,7 @@ mod_map_selections_ui <- function(id){
                               multiple = T,
                               selected = filter(eva_vars, type == "realestate")$name),
     
-    hr()
+#    hr(),
 #    actionButton(ns("goButton"), "Update map", class = "btn-success"),
     
     # shiny::h4("Selected variables"),

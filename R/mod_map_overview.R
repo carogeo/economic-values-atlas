@@ -11,7 +11,7 @@ mod_map_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
     # HTML("<p>Select variables of interest at the left and update map to view results. Green values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of our entire region. Click on any tract to get more information.</p>"),
-    leafletOutput(ns("map"), height = 700)#,
+    leafletOutput(ns("map"), height = 550)#,
     
     # wellPanel(textOutput(ns("selected_tract")))
     
@@ -56,23 +56,52 @@ mod_map_overview_server <- function(input, output, session,
       ) %>%
       
       #### regional specific other data layers
-      addMapPane("Corridors", zIndex = 430) %>%
+#      addMapPane("Corridor Tracts", zIndex = 430) %>%
+#      addPolygons(
+#        # Markers(
+#        data = corridor_tracts,
+#        group = "Corridor Tracts",
+#        weight=4,
+#        color="white",
+#        opacity = 1,
+#        highlightOptions = highlightOptions(
+#          stroke = TRUE,
+#          color = "white",
+#          weight = 8,
+#          bringToFront = TRUE,
+#          opacity = 1
+#        ),
+#        fillColor = "transparent",# councilR::colors$transitRed,
+#        popup = ~paste0("Corridor Name: ", corridor_tracts$corridor_number), 
+#        #                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
+#        #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
+#        options = pathOptions(pane = "Corridor Tracts")
+#      ) %>%
+    addMapPane("Corridors", zIndex = 470) %>%
       addPolygons(
         # Markers(
-        data = corridor_tracts,
+        data = corridors,
         group = "Corridors",
-        weight=4,
+        weight=1,
         color="white",
         opacity = 1,
-        fillColor = "transparent",# councilR::colors$transitRed,
+        highlightOptions = highlightOptions(
+          stroke = TRUE,
+          color = "white",
+          weight = 4,
+          bringToFront = TRUE,
+          opacity = 1,
+          fillOpacity = 1
+        ),
+        fillColor = "white",
+        fillOpacity = .8,
+        popup = ~paste0("Corridor Name: ", corridors$Name), 
+        #                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
+        #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
         options = pathOptions(pane = "Corridors")
       ) %>%
-       groupOptions(
-         group = "Corridors",
-         zoomLevels = 13:20
-       ) %>%
       
-      hideGroup("Corridors") %>%
+#      hideGroup("Corridors") %>%
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
@@ -83,6 +112,7 @@ mod_map_overview_server <- function(input, output, session,
         ),
         overlayGroups = c(
           "Scores",
+#          "Corridor Tracts",
           "Corridors"
         ),
         options = layersControlOptions(collapsed = T)
