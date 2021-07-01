@@ -14,7 +14,7 @@ mod_map_selections_ui <- function(id){
     radioButtons(
       ns("geoInput"),
       label = h4("Choose geography to map"),
-      choices = c("tract", "corridor", "corridor walkshed"), inline=T,
+      choices = c("tract", "corridor", "corridor walkshed"),# inline=T,
       selected = c("tract")
     ),
     
@@ -113,7 +113,8 @@ mod_map_selections_server <- function(input, output, session){
       rbind(as_tibble(input$inclusivityInput)) %>%
       rbind(as_tibble(input$geoInput)) %>%
       rbind(as_tibble(input$realestateInput)) 
-  }, ignoreNULL = FALSE)
+  }#, ignoreNULL = FALSE
+  )
   
   
   return(input_values)
