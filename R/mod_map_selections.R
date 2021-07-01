@@ -11,6 +11,13 @@ mod_map_selections_ui <- function(id){
   ns <- NS(id)
   tagList(
     
+    radioButtons(
+      ns("geoInput"),
+      label = h4("Choose geography to map"),
+      choices = c("tract", "corridor", "corridor walkshed"), inline=T,
+      selected = c("tract")
+    ),
+    
     shinyWidgets::pickerInput(ns("jobsInput"),
                               label = shiny::HTML(paste0("<h3>Job activity</h3>")), 
                               choices = filter(eva_vars, type == "jobs")$name, 
@@ -93,63 +100,21 @@ mod_map_selections_server <- function(input, output, session){
   
   input_values <- reactiveValues() # start with an empty reactiveValues object.
   
-#  observeEvent(input$goButton,{
-#      input$goButton
-#    
-#    input_values$jobsInput <- input$jobsInput
-#    input_values$marketInput <- input$marketInput
-#    input_values$inclusivityInput <- input$inclusivityInput
-#    input_values$developabilityInput <- input$developabilityInput
-#    input_values$realestateInput <- input$realestateInput
+  observe({
     
-#    input_values$allInputs <- as_tibble(input$jobsInput) %>%
-#      rbind(as_tibble(input$marketInput)) %>%
-#      rbind(as_tibble(input$inclusivityInput)) %>%
-#      rbind(as_tibble(input$developabilityInput)) %>%
-#      rbind(as_tibble(input$realestateInput)) 
-#  }, ignoreNULL = FALSE)
+    input_values$geoInput <- input$geoInput
+    input_values$jobsInput <- input$jobsInput
+    input_values$marketInput <- input$marketInput
+    input_values$inclusivityInput <- input$inclusivityInput
+    input_values$realestateInput <- input$realestateInput
+    
+    input_values$allInputs <- as_tibble(input$jobsInput) %>%
+      rbind(as_tibble(input$marketInput)) %>%
+      rbind(as_tibble(input$inclusivityInput)) %>%
+      rbind(as_tibble(input$geoInput)) %>%
+      rbind(as_tibble(input$realestateInput)) 
+  }, ignoreNULL = FALSE)
   
-  
-   observeEvent(input$jobsInput, { # only update when the user changes the eva input
-     input_values$jobsInput <- input$jobsInput # create/update the eva input value in our reactiveValues object
-     input_values$allInputs <- as_tibble(input$jobsInput) %>%
-       rbind(as_tibble(input$marketInput)) %>%
-       rbind(as_tibble(input$inclusivityInput)) %>%
-       #       rbind(as_tibble(input$developabilityInput)) %>%
-       rbind(as_tibble(input$realestateInput)) 
-   }, ignoreNULL = FALSE)
-   
-   observeEvent(input$marketInput, { # only update when the user changes the eva input
-     input_values$marketInput <- input$marketInput # create/update the eva input value in our reactiveValues object
-     input_values$allInputs <- as_tibble(input$jobsInput) %>%
-       rbind(as_tibble(input$marketInput)) %>%
-       rbind(as_tibble(input$inclusivityInput)) %>%
-       #       rbind(as_tibble(input$developabilityInput)) %>%
-       rbind(as_tibble(input$realestateInput)) 
-   }, ignoreNULL = FALSE)
-   
-   observeEvent(input$inclusivityInput, { # only update when the user changes the eva input
-     input_values$inclusivityInput <- input$inclusivityInput # create/update the eva input value in our reactiveValues object
-     input_values$allInputs <- as_tibble(input$jobsInput) %>%
-       rbind(as_tibble(input$marketInput)) %>%
-       rbind(as_tibble(input$inclusivityInput)) %>%
-       #       rbind(as_tibble(input$developabilityInput)) %>%
-       rbind(as_tibble(input$realestateInput)) 
-   }, ignoreNULL = FALSE)
-  
-  # observeEvent(input$developabilityInput, { # only update when the user changes the eva input
-  #   input_values$developabilityInput <- input$developabilityInput # create/update the eva input value in our reactiveValues object
-  # })
-  
-   observeEvent(input$realestateInput, { # only update when the user changes the eva input
-     input_values$realestateInput <- input$realestateInput # create/update the eva input value in our reactiveValues object
-
-     input_values$allInputs <- as_tibble(input$jobsInput) %>%
-       rbind(as_tibble(input$marketInput)) %>%
-       rbind(as_tibble(input$inclusivityInput)) %>%
-       rbind(as_tibble(input$developabilityInput)) %>%
-       rbind(as_tibble(input$realestateInput)) 
-   }, ignoreNULL = FALSE)
   
   return(input_values)
   
