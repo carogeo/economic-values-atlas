@@ -37,35 +37,14 @@ First, set the following parameters which indicate the state/s and county/ies fr
 
 ```{r user_state, echo=TRUE}
 state_1 <- "MD"
-county_1 <- c("Anne Arundel", "Baltimore City", "Baltimore County", "Carroll", "Harford", "Howard", "Queen Anne's")
+county_1 <- c("Baltimore City")
 
 state_2 <- NA
 county_2 <- NA
 
 metro <- "baltimore"
-dataformat <- "rscript"
+dataformat <- "excel"
 
-#####
-
-#state_1 <- "OR"
-#county_1 <- c("Clackamas", "Columbia", "Multnomah", "Washington", "Yamhill")
-
-#state_2 <- "WA"
-#county_2 <- c("Clark", "Skamania")
-
-#metro <- "pdx"
-#dataformat <- "excel"
-
-#####
-
-# state_1 <- "MN"
-# county_1 <- c("Anoka", "Carver", "Dakota", "Hennepin", "Ramsey", "Scott", "Washington")
-# 
-# state_2 <- NA
-# county_2 <- NA
-# 
-# metro <- "msp"
-# dataformat <- "rscript"
 ```
 
 ### Read and process raw data
@@ -91,6 +70,33 @@ If an R script is being used to aggregate the data, you may find it useful to fo
 ### dl geometries using tigris
 eva_tract_geometry <- user_tracts_fxn(state_1, county_1,
                                state_2, county_2)  
+###grab corridor geometries
+corridor_tracts <- tigris::tracts(
+ state = "MD",
+ county = "Baltimore City",
+ class = "sf")%>%
+ mutate(GEOID=paste0(STATEFP,COUNTYFP,TRACTCE))%>%
+ filter(GEOID=="24510260501"|GEOID=="24510200701"|GEOID=="24510200600"|
+          GEOID=="24510200702"|GEOID=="24510200800"|GEOID=="24510260700"|
+          GEOID=="24510090800"|GEOID=="24510120400"|GEOID=="24510120300"|GEOID=="24510120500"|
+          GEOID=="24510090400"|GEOID=="24510090500"|GEOID=="24510120201"|GEOID=="24510180200"|
+          GEOID=="24510190100"|GEOID=="24510190200"|GEOID=="24510180300"|GEOID=="24510190300"|
+          GEOID=="24510151000"|GEOID=="24510150800"|GEOID=="24510151100"|GEOID=="24510110200"|
+          GEOID=="24510170100"|GEOID=="24510040100"|GEOID=="24510040200"|GEOID=="24510170200"|
+          GEOID=="24510150100"|GEOID=="24510140200"|GEOID=="24510160100"|GEOID=="24510140300"|
+          GEOID=="24510170300"|GEOID=="24510210100"|GEOID=="24510210200")%>%
+ select(GEOID)
+library(rgdal)
+corridor_geo <- readOGR('data-raw/Baltimore_corridor_crosswalk',
+                     verbose=FALSE)
+corridor_tracts<-corridor_tracts%>%
+  merge(corridor_tracts, corridor_geo, by.x=tract_string, by.y=GEOID)
+  select(GEOID,Corridor_Name, geometry)%>%
+  group_by(Corridor_Name)%>%
+  summarise(geometry=st_union(geometry))%>%
+  select(corridor_name)
+corridor_tracts <- corridor_tracts %>% 
+  st_transform(4326)
 
 usethis::use_data(eva_tract_geometry, overwrite = TRUE)
 
@@ -110,8 +116,19 @@ if(metro == "pdx") {
   eva_data_main <- read_xlsx(paste0("./data-raw/", metro, ".xlsx"),
                               sheet = 2,
                              na = c("NA")) %>% 
-    mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries 
-    gather("variable", "raw_value", -tract_string) %>%
+    # filter(tract_string=="24510010200"|tract_string=="24510040100"|tract_string=="24510040200"|tract_string=="24510090300"
+    #      |tract_string=="24510090400"|tract_string=="24510090500"|tract_string=="24510090800"|tract_string=="24510120201"
+    #      |tract_string=="24510120300"|tract_string=="24510120400"|tract_string=="24510140200"|tract_string=="24510140300"
+    #      |tract_string=="24510150100"|tract_string=="24510150800"|tract_string=="24510150900"|tract_string=="24510151000"
+    #      |tract_string=="24510151100"|tract_string=="24510160100"|tract_string=="24510160200"|tract_string=="24510170100"
+    #      |tract_string=="24510170200"|tract_string=="24510170300"|tract_string=="24510180100"|tract_string=="24510180200"
+    #      |tract_string=="24510180300"|tract_string=="24510190100"|tract_string=="24510190200"|tract_string=="24510190300"
+    #      |tract_string=="24510200600"|tract_string=="24510200701"|tract_string=="24510200702"|tract_string=="24510210100"
+    #      |tract_string=="24510210200"|tract_string=="24510260501"|tract_string=="24510260604"|tract_string=="24510260700"
+    #      |tract_string=="24510260800"|tract_string=="24510260900"|tract_string=="24510261000"|tract_string=="24510261100")%>%
+    mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries
+    mutate(Corridor_Name = as.character(Corridor_Name))%>%
+    gather("variable", "raw_value", -tract_string, -Corridor_Name) %>%
     group_by(variable) %>%
      mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
@@ -167,13 +184,13 @@ The following code will launch your region's app (!!). Please run all the code c
 pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
 options("golem.app.prod" = TRUE)
 eva.app::run_app()#state_1 <- "MD",
-# county_1 <- c("Anne Arundel", "Baltimore City", "Baltimore County", "Carroll", "Harford", "Howard", "Queen Anne's"),
+# county_1 <- c("Baltimore City"),
 # 
 # state_2 <- NA,
 # county_2 <- NA,
 # 
 # metro <- "baltimore",
-# dataformat <- "rscript") # add parameters here (if any)
+# dataformat <- "excel") # add parameters here (if any)
 ```
 
 

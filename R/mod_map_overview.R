@@ -11,7 +11,7 @@ mod_map_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
     # HTML("<p>Select variables of interest at the left and update map to view results. Green values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of our entire region. Click on any tract to get more information.</p>"),
-    leafletOutput(ns("map"), height = 550)#,
+    leafletOutput(ns("map"), height = 700)#,
     
     # wellPanel(textOutput(ns("selected_tract")))
     
@@ -33,7 +33,7 @@ mod_map_overview_server <- function(input, output, session,
       setView(
         lat = st_coordinates(map_centroid)[2], #44.963,
         lng = st_coordinates(map_centroid)[1], #-93.22,
-        zoom = 10
+        zoom = 13
       ) %>%
       addMapPane(name = "Stamen Toner", zIndex = 430) %>%
       addProviderTiles("Stamen.TonerLines",
@@ -82,7 +82,7 @@ mod_map_overview_server <- function(input, output, session,
         # Markers(
         data = corridors,
         group = "Corridors",
-        weight=1,
+        weight=.1,
         color="white",
         opacity = 1,
         highlightOptions = highlightOptions(
@@ -94,7 +94,7 @@ mod_map_overview_server <- function(input, output, session,
           fillOpacity = 1
         ),
         fillColor = "white",
-        fillOpacity = .8,
+        fillOpacity = 1,
         popup = ~paste0("Corridor Name: ", corridors$Name), 
         #                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
         #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
@@ -140,7 +140,8 @@ mod_map_overview_server <- function(input, output, session,
       map_selections$jobsInput,
       map_selections$marketInput,
       map_selections$inclusivityInput,
-      map_selections$realestateInput
+      map_selections$realestateInput,
+      map_selections$geoInput
     )
   })
   
@@ -167,14 +168,15 @@ mod_map_overview_server <- function(input, output, session,
                          color = "#DDD3D4",
                          weight = 4,
                          bringToFront = TRUE,
-                         opacity = 1
+                         opacity = 1,
+                         fillOpacity=0.7
                        ),
                        fillColor = ~ colorNumeric(
                          n = 5,
                          palette = "magma",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
-                       popup = ~paste0("Tract ID: ", map_util$map_data2$tract_string, 
+                       popup = ~paste0("ID: ", map_util$map_data2$tract_string, 
                                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
                                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
                        options = pathOptions(pane = "score"),

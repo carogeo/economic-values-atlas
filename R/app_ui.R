@@ -38,7 +38,7 @@ app_ui <- function(request) {
                                      mod_map_selections_ui("map_selections_ui_1")),
                         mainPanel(width = 9,
                                   fluidRow(mod_map_overview_ui("map_overview_ui_1"))),
-                        hr(), br(), br(),
+                        hr(), br(), #br(),
                         # h1("Download tract scores"), br(),
                         # mod_download_scores_ui("download_scores_ui_1"),
                         # hr(), br(), br(),

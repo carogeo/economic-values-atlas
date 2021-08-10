@@ -14,8 +14,8 @@ mod_map_selections_ui <- function(id){
     radioButtons(
       ns("geoInput"),
       label = h4("Choose geography to map"),
-      choices = c("tract", "corridor", "corridor walkshed"),# inline=T,
-      selected = c("tract")
+      choices = c("Tract", "Corridor"),# inline=T,
+      selected = c("Tract")
     ),
     
     shinyWidgets::pickerInput(ns("jobsInput"),
@@ -47,16 +47,7 @@ mod_map_selections_ui <- function(id){
                               selected = filter(eva_vars, type == "inclusivity")$name),
     
     hr(),
-#    shinyWidgets::pickerInput(ns("developabilityInput"),
-#                              label = shiny::HTML("<h3>Developability</h3>"), 
-#                              choices=filter(eva_vars, type == "developability")$name, 
-#                              options = list(`actions-box` = TRUE, 
-#                                             size = 10,
-#                                             `selected-text-format` = "count > 1"),
-#                              multiple = T,
-#                              selected = filter(eva_vars, type == "developability")$name),
-#    
-#    hr(),
+
     shinyWidgets::pickerInput(ns("realestateInput"),
                               label = shiny::HTML("<h3>Real Estate & Commercial Vitality</h3>"), 
                               choices=filter(eva_vars, type == "realestate")$name, 

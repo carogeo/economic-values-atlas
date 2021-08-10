@@ -1,0 +1,13 @@
+name: economic-values-atlas
+title: economic-values-atlas
+username:
+account: draftapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4343291
+bundleId: 4778206
+url: https://draftapp.shinyapps.io/economic-values-atlas/
+when: 1625166444.79884
+lastSyncTime: 1625166444.79884
+asMultiple: FALSE
+asStatic: FALSE
