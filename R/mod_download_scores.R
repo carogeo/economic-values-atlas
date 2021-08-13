@@ -10,7 +10,7 @@
 mod_download_scores_ui <- function(id){
   ns <- NS(id)
   tagList(
-    downloadButton(outputId = ns("download_button"), label = "Download all tract scores", style = "background-color:#5cb85c; color:#FFFFFF")
+    downloadButton(outputId = ns("download_button"), label = "Download all scores", style = "background-color:#5cb85c; color:#FFFFFF")
     
   )
 }
