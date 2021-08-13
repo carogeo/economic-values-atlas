@@ -152,8 +152,8 @@ mod_map_overview_server <- function(input, output, session,
                  } else {
                    print("rendering polygons")
                    leafletProxy("map") %>%
-                     clearGroup("score") %>%
-                     addMapPane("score", zIndex = 400) %>%
+                     clearGroup("Scores") %>%
+                     addMapPane("Scores", zIndex = 400) %>%
                      addPolygons(
                        data = map_util$map_data2 %>% st_transform(4326),
                        group = "Scores",
@@ -179,7 +179,7 @@ mod_map_overview_server <- function(input, output, session,
                        popup = ~paste0("ID: ", map_util$map_data2$tract_string, 
                                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
                                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
-                       options = pathOptions(pane = "score"),
+                       options = pathOptions(pane = "Scores"),
                        layerId = ~tract_string
                      ) %>%
                      # maybe want to add this: https://stackoverflow.com/questions/42245302/shiny-leaflet-highlight-polygon
