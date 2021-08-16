@@ -165,7 +165,7 @@ mod_map_overview_server <- function(input, output, session,
                        smoothFactor = 0.2,
                        highlightOptions = highlightOptions(
                          stroke = TRUE,
-                         color = "#DDD3D4",
+                         color = "#FFFFFF",
                          weight = 4,
                          bringToFront = TRUE,
                          opacity = 1,

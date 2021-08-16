@@ -52,7 +52,7 @@ mod_map_utils_server <- function(input, output, session,
         filter(name %in% map_selections$allInputs$value) %>%
         group_by(tract_string) %>%
         summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
-        left_join(corridor_tracts, by = c("tract_string" = "corridor_name")) %>%
+        left_join(corridor_tracts, by = c("tract_string" = "Corridor_Name")) %>%
         st_as_sf() %>%
         st_transform(4326) %>%
         mutate(RANK = min_rank(desc(MEAN)))}

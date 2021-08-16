@@ -76,25 +76,25 @@ corridor_tracts <- tigris::tracts(
  county = "Baltimore City",
  class = "sf")%>%
  mutate(GEOID=paste0(STATEFP,COUNTYFP,TRACTCE))%>%
- filter(GEOID=="24510260501"|GEOID=="24510200701"|GEOID=="24510200600"|
-          GEOID=="24510200702"|GEOID=="24510200800"|GEOID=="24510260700"|
-          GEOID=="24510090800"|GEOID=="24510120400"|GEOID=="24510120300"|GEOID=="24510120500"|
-          GEOID=="24510090400"|GEOID=="24510090500"|GEOID=="24510120201"|GEOID=="24510180200"|
-          GEOID=="24510190100"|GEOID=="24510190200"|GEOID=="24510180300"|GEOID=="24510190300"|
-          GEOID=="24510151000"|GEOID=="24510150800"|GEOID=="24510151100"|GEOID=="24510110200"|
-          GEOID=="24510170100"|GEOID=="24510040100"|GEOID=="24510040200"|GEOID=="24510170200"|
-          GEOID=="24510150100"|GEOID=="24510140200"|GEOID=="24510160100"|GEOID=="24510140300"|
-          GEOID=="24510170300"|GEOID=="24510210100"|GEOID=="24510210200")%>%
+    filter(GEOID=="24510010200"|GEOID=="24510040100"|GEOID=="24510040200"|GEOID=="24510090300"
+         |GEOID=="24510090400"|GEOID=="24510090500"|GEOID=="24510090800"|GEOID=="24510120201"
+         |GEOID=="24510120300"|GEOID=="24510120400"|GEOID=="24510140200"|GEOID=="24510140300"
+         |GEOID=="24510150100"|GEOID=="24510150800"|GEOID=="24510150900"|GEOID=="24510151000"
+         |GEOID=="24510151100"|GEOID=="24510160100"|GEOID=="24510160200"|GEOID=="24510170100"
+         |GEOID=="24510170200"|GEOID=="24510170300"|GEOID=="24510180100"|GEOID=="24510180200"
+         |GEOID=="24510180300"|GEOID=="24510190100"|GEOID=="24510190200"|GEOID=="24510190300"
+         |GEOID=="24510200600"|GEOID=="24510200701"|GEOID=="24510200702"|GEOID=="24510210100"
+         |GEOID=="24510210200"|GEOID=="24510260501"|GEOID=="24510260604"|GEOID=="24510260700"
+         |GEOID=="24510260800"|GEOID=="24510260900"|GEOID=="24510261000"|GEOID=="24510261100")%>%
  select(GEOID)
 library(rgdal)
-corridor_geo <- readOGR('data-raw/Baltimore_corridor_crosswalk',
-                     verbose=FALSE)
+corridor_geo <- read_xlsx('./data-raw/Baltimore_corridor_crosswalk.xlsx')
+corridor_tracts<-merge(corridor_tracts, corridor_geo, by.x='GEOID', by.y='tract_string')
 corridor_tracts<-corridor_tracts%>%
-  merge(corridor_tracts, corridor_geo, by.x=tract_string, by.y=GEOID)
   select(GEOID,Corridor_Name, geometry)%>%
   group_by(Corridor_Name)%>%
   summarise(geometry=st_union(geometry))%>%
-  select(corridor_name)
+  select(Corridor_Name)
 corridor_tracts <- corridor_tracts %>% 
   st_transform(4326)
 
@@ -116,20 +116,21 @@ if(metro == "pdx") {
   eva_data_main <- read_xlsx(paste0("./data-raw/", metro, ".xlsx"),
                               sheet = 2,
                              na = c("NA")) %>% 
-    # filter(tract_string=="24510010200"|tract_string=="24510040100"|tract_string=="24510040200"|tract_string=="24510090300"
-    #      |tract_string=="24510090400"|tract_string=="24510090500"|tract_string=="24510090800"|tract_string=="24510120201"
-    #      |tract_string=="24510120300"|tract_string=="24510120400"|tract_string=="24510140200"|tract_string=="24510140300"
-    #      |tract_string=="24510150100"|tract_string=="24510150800"|tract_string=="24510150900"|tract_string=="24510151000"
-    #      |tract_string=="24510151100"|tract_string=="24510160100"|tract_string=="24510160200"|tract_string=="24510170100"
-    #      |tract_string=="24510170200"|tract_string=="24510170300"|tract_string=="24510180100"|tract_string=="24510180200"
-    #      |tract_string=="24510180300"|tract_string=="24510190100"|tract_string=="24510190200"|tract_string=="24510190300"
-    #      |tract_string=="24510200600"|tract_string=="24510200701"|tract_string=="24510200702"|tract_string=="24510210100"
-    #      |tract_string=="24510210200"|tract_string=="24510260501"|tract_string=="24510260604"|tract_string=="24510260700"
-    #      |tract_string=="24510260800"|tract_string=="24510260900"|tract_string=="24510261000"|tract_string=="24510261100")%>%
+    filter(tract_string=="24510010200"|tract_string=="24510040100"|tract_string=="24510040200"|tract_string=="24510090300"
+         |tract_string=="24510090400"|tract_string=="24510090500"|tract_string=="24510090800"|tract_string=="24510120201"
+         |tract_string=="24510120300"|tract_string=="24510120400"|tract_string=="24510140200"|tract_string=="24510140300"
+         |tract_string=="24510150100"|tract_string=="24510150800"|tract_string=="24510150900"|tract_string=="24510151000"
+         |tract_string=="24510151100"|tract_string=="24510160100"|tract_string=="24510160200"|tract_string=="24510170100"
+         |tract_string=="24510170200"|tract_string=="24510170300"|tract_string=="24510180100"|tract_string=="24510180200"
+         |tract_string=="24510180300"|tract_string=="24510190100"|tract_string=="24510190200"|tract_string=="24510190300"
+         |tract_string=="24510200600"|tract_string=="24510200701"|tract_string=="24510200702"|tract_string=="24510210100"
+         |tract_string=="24510210200"|tract_string=="24510260501"|tract_string=="24510260604"|tract_string=="24510260700"
+         |tract_string=="24510260800"|tract_string=="24510260900"|tract_string=="24510261000"|tract_string=="24510261100"
+         |tract_string=="Bayview"|tract_string=="Frederick Avenue and S Hilton Street"|tract_string=="Greektown"|tract_string=="Greenmount Avenue (1900-2800) North Ave to 28th Street"|tract_string=="Greenmount Avenue (2800-3900) Waverly Main Street"|tract_string=="Highlandtown"|tract_string=="Hollins Market / W Baltimore Street"|tract_string=="Liberty Heights & Garrison Blvd" |tract_string=="Market Center"|tract_string=="Pennsylvania Avenue Upton"|tract_string=="Pigtown/Washington Village")%>%
     mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries
-    mutate(Corridor_Name = as.character(Corridor_Name))%>%
-    gather("variable", "raw_value", -tract_string, -Corridor_Name) %>%
-    group_by(variable) %>%
+    #mutate(Corridor_Name = as.character(Corridor_Name))%>%
+    gather("variable", "raw_value", -tract_string, -Corridor_Name, -Corridor) %>%
+    group_by(variable,as.factor(Corridor)) %>%
      mutate(MEAN = mean(raw_value, na.rm = T),
          SD = sd(raw_value, na.rm = T),
          MIN = min(raw_value, na.rm = T),
