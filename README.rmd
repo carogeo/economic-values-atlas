@@ -128,7 +128,7 @@ if(metro == "pdx") {
          |tract_string=="24510260800"|tract_string=="24510260900"|tract_string=="24510261000"|tract_string=="24510261100"
          |tract_string=="Bayview"|tract_string=="Frederick Avenue and S Hilton Street"|tract_string=="Greektown"|tract_string=="Greenmount Avenue (1900-2800) North Ave to 28th Street"|tract_string=="Greenmount Avenue (2800-3900) Waverly Main Street"|tract_string=="Highlandtown"|tract_string=="Hollins Market / W Baltimore Street"|tract_string=="Liberty Heights & Garrison Blvd" |tract_string=="Market Center"|tract_string=="Pennsylvania Avenue Upton"|tract_string=="Pigtown/Washington Village")%>%
     mutate(tract_string = as.character(tract_string)) %>% #ensure this reads as a character so that we can join with tract geometries
-    #mutate(Corridor_Name = as.character(Corridor_Name))%>%
+    mutate(Corridor_Name = as.character(Corridor_Name))%>%
     gather("variable", "raw_value", -tract_string, -Corridor_Name, -Corridor) %>%
     group_by(variable,as.factor(Corridor)) %>%
      mutate(MEAN = mean(raw_value, na.rm = T),
