@@ -23,7 +23,7 @@ corridors<-corridors%>%
   st_transform(4326)
 
 ## corridor tract sets ---------------
-###grab corridor geometries
+###grab corridor tract geometries
 corridor_tracts <- tigris::tracts(
   state = "MD",
   county = "Baltimore City",
