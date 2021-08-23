@@ -32,7 +32,7 @@ app_ui <- function(request) {
 #                        mod_intro_ui("intro_ui_1"),
                         
 #                        h1('Visualize regional "opportunity zones"'),br(),
-#                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of the entire region. Cool and dark colors (black, purple) correspond to lower opportunity areas. Click on any tract to get more information.</p>"),
+                        HTML("<p>Select variables of interest at the left and update map to view results. Warm and bright (yellow, orange) values and high ranks correspond to 'opportunity zones' where economic investments could have disporportionately positive impacts for the future prosperity of the entire region. Cool and dark colors (black, purple) correspond to lower opportunity areas. Click on any tract to get more information.</p>"),
 #                        br(),
                         sidebarPanel(width = 3, 
                                      mod_map_selections_ui("map_selections_ui_1")),

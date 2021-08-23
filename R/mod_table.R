@@ -32,16 +32,16 @@ mod_table_server <- function(input, output, session,
       select(name, raw_value, overall_rank, COUNT)  %>%
       mutate(raw_value= round(raw_value, 1)) %>%
       mutate_if(is.numeric, format, big.mark = ",")  %>%
-      rename(`Selected tract` = raw_value,
+      rename(`Selected tract/corridor` = raw_value,
              `Rank of variable` = overall_rank,
-             `Total tracts with data` = COUNT)
+             `Total tracts/corridors with data` = COUNT)
     
     avg_tracts <- #
       # eva_data_main %>% 
       map_util$plot_data2 %>%
       ungroup() %>%
       group_by(name) %>%
-      summarise(`Average tract`= round(mean(raw_value, na.rm = T), 1)) %>%
+      summarise(`Average tract/corridor`= round(mean(raw_value, na.rm = T), 1)) %>%
       mutate_if(is.numeric, format, big.mark = ",") 
     
     fulltable <- full_join(avg_tracts, selected_tract, by = "name") %>%

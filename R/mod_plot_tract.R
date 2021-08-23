@@ -40,7 +40,7 @@ mod_plot_tract_server <- function(input, output, session,
       filter(tract_string == tract_selections$selected_tract) %>%
       rename(SCALED_WTS = weights_scaled,
              RAW = raw_value) %>%
-      mutate(dsource = "Selected tract") %>%
+      mutate(dsource = "Selected") %>%
       select(name, SCALED_WTS, RAW, dsource) 
     
     tract_avgs <- map_util$plot_data2 %>%
@@ -49,7 +49,7 @@ mod_plot_tract_server <- function(input, output, session,
       group_by(name) %>% 
       summarise(SCALED_WTS = mean(weights_scaled, na.rm = T),
                 RAW = mean(raw_value, na.rm = T)) %>%
-      mutate(dsource = "All tracts \n(average)")
+      mutate(dsource = "All \n(average)")
     
     toplot <- bind_rows(selected_tract, tract_avgs)# %>%
       # gather(key = "key", value = "value", -name, -dsource)
@@ -76,7 +76,7 @@ mod_plot_tract_server <- function(input, output, session,
       scale_color_manual(values = c("#636363", ##0054A4", 
                                     "#78A22F"), name = "Legend:") +
       labs(y = "", x = "Score\n(high score = large opportunity)") +
-      ggtitle(paste0("Summary for tract ", tract_selections$selected_tract)) +
+      ggtitle(paste0("Summary for  ", tract_selections$selected_tract)) +
     council_theme() +
       theme(axis.text.y = element_text(size = 15),
             axis.text.x = element_text(size = 15),
