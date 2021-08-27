@@ -11,12 +11,12 @@ mod_map_selections_ui <- function(id){
   ns <- NS(id)
   tagList(
     
-    radioButtons(
-      ns("geoInput"),
-      label = h4("Choose geography to map"),
-      choices = c("Tract", "Corridor"),# inline=T,
-      selected = c("Tract")
-    ),
+    # radioButtons(
+    #   ns("geoInput"),
+    #   label = h4("Choose geography to map"),
+    #   choices = c("Tract", "Corridor"),# inline=T,
+    #   selected = c("Tract")
+    # ),
     
     shinyWidgets::pickerInput(ns("jobsInput"),
                               label = shiny::HTML(paste0("<h3>Job activity</h3>")), 
@@ -93,7 +93,7 @@ mod_map_selections_server <- function(input, output, session){
   
   observe({
     
-    input_values$geoInput <- input$geoInput
+    #input_values$geoInput <- input$geoInput
     input_values$jobsInput <- input$jobsInput
     input_values$marketInput <- input$marketInput
     input_values$inclusivityInput <- input$inclusivityInput
@@ -102,7 +102,7 @@ mod_map_selections_server <- function(input, output, session){
     input_values$allInputs <- as_tibble(input$jobsInput) %>%
       rbind(as_tibble(input$marketInput)) %>%
       rbind(as_tibble(input$inclusivityInput)) %>%
-      rbind(as_tibble(input$geoInput)) %>%
+      #rbind(as_tibble(input$geoInput)) %>%
       rbind(as_tibble(input$realestateInput)) 
   }#, ignoreNULL = FALSE
   )

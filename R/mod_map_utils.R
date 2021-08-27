@@ -23,21 +23,21 @@ mod_map_utils_server <- function(input, output, session,
  
   #we need to make this data for a bar plot, or something like that
   make_plot_data2 <- reactive({
-    if("Tract" %in% map_selections$allInputs$value){
-      eva_data_main<-filter(eva_data_main, Corridor_Name != "1")      
+    # if("Tract" %in% map_selections$allInputs$value){
+    #   eva_data_main<-filter(eva_data_main, Corridor_Name != "1")      
       p <- eva_data_main %>%
-        filter(name %in% map_selections$allInputs$value)}
-    else if ("Corridor" %in% map_selections$allInputs$value){
-      eva_data_main<-filter(eva_data_main, Corridor_Name == "1")
-      p <- eva_data_main %>%
-        filter(name %in% map_selections$allInputs$value)}
+        filter(name %in% map_selections$allInputs$value)#}
+    # else if ("Corridor" %in% map_selections$allInputs$value){
+    #   eva_data_main<-filter(eva_data_main, Corridor_Name == "1")
+    #   p <- eva_data_main %>%
+    #     filter(name %in% map_selections$allInputs$value)}
     return(p)
   })
   
   #but we want to get a single averaged value for every tract to put on the map
   make_map_data2 <- reactive({
-    if("Tract" %in% map_selections$allInputs$value){
-      eva_data_main<-filter(eva_data_main, Corridor_Name != "1")
+    # if("Tract" %in% map_selections$allInputs$value){
+    #   eva_data_main<-filter(eva_data_main, Corridor_Name != "1")
       p <- eva_data_main %>%
         filter(name %in% map_selections$allInputs$value) %>%
         group_by(tract_string) %>%
@@ -45,17 +45,17 @@ mod_map_utils_server <- function(input, output, session,
         left_join(eva_tract_geometry, by = c("tract_string" = "GEOID")) %>%
         st_as_sf() %>%
         st_transform(4326) %>%
-        mutate(RANK = min_rank(desc(MEAN)))}
-    else if("Corridor" %in% map_selections$allInputs$value){
-      eva_data_main<-filter(eva_data_main, Corridor_Name == "1")
-      p <- eva_data_main %>%
-        filter(name %in% map_selections$allInputs$value) %>%
-        group_by(tract_string) %>%
-        summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
-        left_join(corridor_tracts, by = c("tract_string" = "Corridor_Name")) %>%
-        st_as_sf() %>%
-        st_transform(4326) %>%
-        mutate(RANK = min_rank(desc(MEAN)))}
+        mutate(RANK = min_rank(desc(MEAN)))#}
+    # else if("Corridor" %in% map_selections$allInputs$value){
+    #   eva_data_main<-filter(eva_data_main, Corridor_Name == "1")
+    #   p <- eva_data_main %>%
+    #     filter(name %in% map_selections$allInputs$value) %>%
+    #     group_by(tract_string) %>%
+    #     summarise(MEAN = mean(weights_scaled, na.rm = T)) %>%
+    #     left_join(corridor_tracts, by = c("tract_string" = "Corridor_Name")) %>%
+    #     st_as_sf() %>%
+    #     st_transform(4326) %>%
+    #     mutate(RANK = min_rank(desc(MEAN)))}
  
     # leaflet() %>%
     #   setView(lat = 44.963, lng = -93.22, zoom = 9) %>%

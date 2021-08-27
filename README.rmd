@@ -36,14 +36,14 @@ To understand what you will be creating, please view [this example for the Twin 
 First, set the following parameters which indicate the state/s and county/ies from which tract data comes from. Right now, this code is set to handle up to 2 states although this can easily be expanded if there is a need. Also set the metro name, and the format of the data inputs. This should be the only section of code that needs editing. 
 
 ```{r user_state, echo=TRUE}
-state_1 <- "MD"
-county_1 <- c("Baltimore City")
+state_1 <- NA
+county_1 <- NA
 
 state_2 <- NA
 county_2 <- NA
 
-metro <- "baltimore"
-dataformat <- "excel"
+metro <- "america"
+dataformat <- "rscript"
 
 ```
 
@@ -157,14 +157,14 @@ The following code will launch your region's app (!!). Please run all the code c
 ```{r deployapp, echo=T, include=F}
 pkgload::load_all(export_all = FALSE, helpers = FALSE, attach_testthat = FALSE)
 options("golem.app.prod" = TRUE)
-eva.app::run_app()#state_1 <- "MD",
-# county_1 <- c("Baltimore City"),
+eva.app::run_app()#state_1 <- NA,
+# county_1 <- NA,
 # 
 # state_2 <- NA,
 # county_2 <- NA,
 # 
-# metro <- "baltimore",
-# dataformat <- "excel") # add parameters here (if any)
+# metro <- "america",
+# dataformat <- "rscript") # add parameters here (if any)
 ```
 
 

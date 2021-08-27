@@ -31,18 +31,14 @@ mod_map_overview_server <- function(input, output, session,
   output$map <- renderLeaflet({ #  map --------
     leaflet() %>%
       setView(
-        lat = st_coordinates(map_centroid)[2], #44.963,
-        lng = st_coordinates(map_centroid)[1], #-93.22,
-        zoom = 13
+        lat = 39.5, #st_coordinates(map_centroid)[2], #44.963,
+        lng = -98.35, #st_coordinates(map_centroid)[1], #-93.22,
+        zoom = 5
       ) %>%
       addMapPane(name = "Stamen Toner", zIndex = 430) %>%
       addProviderTiles("Stamen.TonerLines",
                        group = "Stamen Toner"
       ) %>%
-      addProviderTiles("Stamen.TonerLabels", 
-                       options = leafletOptions(pane = "Stamen Toner"),
-                       group = "Stamen Toner") %>%
-      
       addMapPane(name = "Carto Positron", zIndex = 430) %>%
       addProviderTiles("CartoDB.PositronOnlyLabels", 
                        options = leafletOptions(pane = "Carto Positron"),
@@ -50,6 +46,9 @@ mod_map_overview_server <- function(input, output, session,
       addProviderTiles("CartoDB.PositronNoLabels",
                        group = "Carto Positron"
       ) %>%
+      addProviderTiles("Stamen.TonerLabels", 
+                       options = leafletOptions(pane = "Stamen Toner"),
+                       group = "Stamen Toner") %>%
       addProviderTiles(
         provider = providers$Esri.WorldImagery,
         group = "Aerial Imagery"
@@ -77,44 +76,44 @@ mod_map_overview_server <- function(input, output, session,
 #        #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
 #        options = pathOptions(pane = "Corridor Tracts")
 #      ) %>%
-    addMapPane("Corridors", zIndex = 470) %>%
-      addPolygons(
-        # Markers(
-        data = corridors,
-        group = "Corridors",
-        weight=.1,
-        color="white",
-        opacity = 1,
-        highlightOptions = highlightOptions(
-          stroke = TRUE,
-          color = "white",
-          weight = 4,
-          bringToFront = TRUE,
-          opacity = 1,
-          fillOpacity = 1
-        ),
-        fillColor = "white",
-        fillOpacity = 1,
-        popup = ~paste0("Corridor Name: ", corridors$Name), 
-        #                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
-        #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
-        options = pathOptions(pane = "Corridors")
-      ) %>%
+    # addMapPane("Corridors", zIndex = 470) %>%
+    #   addPolygons(
+    #     # Markers(
+    #     data = corridors,
+    #     group = "Corridors",
+    #     weight=.1,
+    #     color="white",
+    #     opacity = 1,
+    #     highlightOptions = highlightOptions(
+    #       stroke = TRUE,
+    #       color = "white",
+    #       weight = 4,
+    #       bringToFront = TRUE,
+    #       opacity = 1,
+    #       fillOpacity = 1
+    #     ),
+    #     fillColor = "white",
+    #     fillOpacity = 1,
+    #     popup = ~paste0("Corridor Name: ", corridors$Name), 
+    #     #                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
+    #     #                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
+    #     options = pathOptions(pane = "Corridors")
+    #   ) %>%
       
 #      hideGroup("Corridors") %>%
       addLayersControl(
         position = "bottomright",
         # overlayGroups = c(),
         baseGroups = c(
-          "Stamen Toner",
           "Carto Positron",
+          "Stamen Toner",
           "Aerial Imagery"
         ),
-        overlayGroups = c(
-          "Scores",
-#          "Corridor Tracts",
-          "Corridors"
-        ),
+#         overlayGroups = c(
+#           "Scores",
+# #          "Corridor Tracts",
+#           "Corridors"
+#         ),
         options = layersControlOptions(collapsed = T)
       )  
   })
@@ -176,7 +175,7 @@ mod_map_overview_server <- function(input, output, session,
                          palette = "magma",
                          domain = map_util$map_data2 %>% select("MEAN") %>% .[[1]]
                        )(map_util$map_data2 %>% select("MEAN") %>% .[[1]]),
-                       popup = ~paste0("ID: ", map_util$map_data2$tract_string, 
+                       popup = ~paste0("ID: ", map_util$eva_data_main$NAME, 
                                        "<br>Average score: ", round(map_util$map_data2$MEAN, 3),
                                        "<br>Rank of score: ", map_util$map_data2$RANK, " out of ", nrow(map_util$map_data2)),
                        options = pathOptions(pane = "Scores"),
